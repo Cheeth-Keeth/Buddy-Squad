@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.ridesharing.model;
+package ca.boston.hack.buddysquad.model;
 
 import javax.persistence.*;
 import java.util.ArrayList;

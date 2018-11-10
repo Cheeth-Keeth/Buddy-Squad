@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.ridesharing;
+package ca.boston.hack.buddysquad;
 
 
 import static org.junit.Assert.assertEquals;

@@ -1,9 +1,9 @@
-package ca.mcgill.ecse321.ridesharing.controller;
+package ca.boston.hack.buddysquad.controller;
 
 //import java.sql.Date;
 //import java.sql.Time;
 //
-import ca.mcgill.ecse321.ridesharing.model.*;
+import ca.boston.hack.buddysquad.model.*;
 //import ca.mcgill.ecse321.ridesharing.repository.*;
 
 import java.util.List;
@@ -21,14 +21,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 //import ca.mcgill.ecse321.ridesharing.model.User;
-import ca.mcgill.ecse321.ridesharing.repository.RideSharingRepository;
+import ca.boston.hack.buddysquad.repository.BuddySquadRepository;
 
 
 @RestController
-public class RideSharingController {
+public class BuddySquadController {
 
 	@Autowired
-	RideSharingRepository repository;
+	BuddySquadRepository repository;
 	
 	@RequestMapping("/")
 	public String greeting () 

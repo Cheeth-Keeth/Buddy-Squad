@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.ridesharing.repository;
+package ca.boston.hack.buddysquad.repository;
 
 import java.sql.Date;
 import java.sql.Time;
@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import ca.mcgill.ecse321.ridesharing.model.*;
+import ca.boston.hack.buddysquad.model.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,7 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 @Repository
-public class RideSharingRepository {
+public class BuddySquadRepository {
 
 	@PersistenceContext
 	EntityManager entityManager;
