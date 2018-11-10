@@ -1,0 +1,5 @@
+
+language: java
+script:
+ - cd RideSharing-backend
+ - mvn clean install
