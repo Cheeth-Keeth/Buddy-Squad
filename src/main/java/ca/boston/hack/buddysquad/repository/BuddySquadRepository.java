@@ -72,7 +72,7 @@ public class BuddySquadRepository {
 	public Group joinGroup(String username, String name) {
 		
 		TypedQuery <Group> query = entityManager.createQuery("SELECT c FROM Group c WHERE c.name = :name", Group.class); 
-		Group group = query.setParameter("id", name).getSingleResult(); 
+		Group group = query.setParameter("name", name).getSingleResult(); 
 		int space = group.getAvailableSeats(); 
 		
 		TypedQuery <User> queryTwo = entityManager.createQuery ("SELECT c FROM User c WHERE c.username = :username", User.class);
