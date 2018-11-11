@@ -193,4 +193,55 @@ public class BuddySquadController {
 					
 	}
 	
+	@RequestMapping(value = "/clearActivities/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public List<User> clearActivities(@PathVariable long id) {
+
+		List<User> users = repository.clearActivities(id);
+						
+		if (users.isEmpty() != true) {
+						
+			return users;
+						
+		} else {
+						
+			return null;
+		}
+					
+	}
+	
+	@RequestMapping(value = "/sendMessage/{message}/{username}", method = RequestMethod.GET)
+	@ResponseBody
+	public User sendMessage(@PathVariable String message, @PathVariable String username) {
+
+		User user = repository.sendMessage(message, username);
+						
+		if (user != null) {
+						
+			return user;
+						
+		} else {
+						
+			return null;
+		}
+					
+	}
+	
+	@RequestMapping(value = "/clearMessage/{username}", method = RequestMethod.GET)
+	@ResponseBody
+	public User clearMessage(@PathVariable String username) {
+
+		User user = repository.clearMessage(username);
+						
+		if (user != null) {
+						
+			return user;
+						
+		} else {
+						
+			return null;
+		}
+					
+	}
+	
 }

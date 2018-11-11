@@ -183,5 +183,44 @@ public class BuddySquadRepository {
 			
 			
 		}
+		
+		@Transactional
+		public List<User> clearActivities(long id) {
+			
+			TypedQuery <User> query = entityManager.createQuery("SELECT c FROM User c WHERE c.id = :id", User.class); 
+			List<User> users = query.setParameter("id", id).getResultList();
+			  
+			for (User user : users) {
+				
+				user.setFitnessComplete(false);
+				user.setLearningComplete(false);
+				user.setMiscellaneousComplete(false);
+				
+				entityManager.persist(user);
+				
+			}
+			
+			return users;
+		}
+
+		public User sendMessage(String message, String username) {
+			
+			TypedQuery <User> query = entityManager.createQuery("SELECT c FROM User c WHERE c.username = :username", User.class); 
+			User user = query.setParameter("username", username).getSingleResult(); 
+				
+			user.setMessages(message + "\n \n");
+			  
+			return user;
+		}
+
+		public User clearMessage(String username) {
+			
+			TypedQuery <User> query = entityManager.createQuery("SELECT c FROM User c WHERE c.username = :username", User.class); 
+			User user = query.setParameter("username", username).getSingleResult(); 
+				
+			user.setMessages(null);
+			  
+			return user;
+		}
 	
 }
