@@ -102,12 +102,12 @@ public class BuddySquadController {
 		
 	}
 
-		@RequestMapping(value = "/joinGroup/{username}/{id}", method = RequestMethod.GET)
+		@RequestMapping(value = "/joinGroup/{username}/{name}", method = RequestMethod.GET)
 		@ResponseBody
-		public Group joinGroup(@PathVariable String username, @PathVariable Long id) {
+		public Group joinGroup(@PathVariable String username, @PathVariable String name) {
 			
 
-			Group group = repository.joinGroup(username, id);
+			Group group = repository.joinGroup(username, name);
 				
 			if (group != null) {
 				return group;
