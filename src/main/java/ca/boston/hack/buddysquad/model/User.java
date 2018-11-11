@@ -7,14 +7,15 @@ import javax.persistence.*;
 public class User {
 		
 		private String username; 
-		private String password; 
-		private String health; 
+		private String password;  
 		private String fitness; 
 		private String learning; 
-		private String mindfulness; 
-		private String miscelaneous;
+		private String miscellaneous;
+		private boolean fitnessComplete; 
+		private boolean learningComplete; 
+		private boolean miscellaneousComplete;
 		private String messages;
-		
+		private long id; 
 
 public void setUsername(String username) {
 	this.username = username; 
@@ -35,14 +36,6 @@ public String getPassword() {
 	return this.password; 
 }
 
-public void setHealth(String health) {
-	this.health = health; 
-}
-
-@Column(name= "health")
-public String getHealth() {
-	return this.health; 
-}
 
 public void setFitness(String fitness) {
 	this.fitness = fitness; 
@@ -62,23 +55,15 @@ public String getLearning() {
 	return this.learning; 
 }
 
-public void setMindfulness(String mindfulness) {
-	this.mindfulness = mindfulness; 
+
+
+public void setMiscellaneous(String miscellaneous) {
+	this.miscellaneous= miscellaneous; 
 }
 
-@Column(name= "mindfulness")
-public String getMindfulness() {
-	return this.mindfulness; 
-}
-
-
-public void setMiscelaneous(String miscelaneous) {
-	this.miscelaneous= miscelaneous; 
-}
-
-@Column(name= "miscelaneous")
-public String getMiscelaneous() {
-	return this.miscelaneous; 
+@Column(name= "miscellaneous")
+public String getMiscellaneous() {
+	return this.miscellaneous; 
 }
 
 public void messages(String message) {
@@ -90,5 +75,40 @@ public String getMessages() {
 	return this.messages; 
 }
 
+public void setFitnessComplete(boolean fitness) {
+	this.fitnessComplete = fitness; 
+}
+
+@Column(name= "fitnessComplete")
+public boolean isFitnessComplete() {
+	return this.fitnessComplete; 
+}
+
+public void setLearningComplete(boolean learning) {
+	this.learningComplete = learning; 
+}
+
+@Column(name= "learningComplete")
+public boolean isLearningComplete() {
+	return this.learningComplete; 
+}
+
+public void setMiscellaneousComplete(boolean miscellaneous) {
+	this.miscellaneousComplete = miscellaneous; 
+}
+
+@Column(name= "miscellaneousComplete")
+public boolean isMiscellaneousComplete() {
+	return this.miscellaneousComplete; 
+}
+
+public void setId(long id) {
+	this.id=id; 
+}
+
+@Column (name= "groupId")
+public long getId(long id) {
+	return this.id; 
+}
 	
 }
