@@ -107,7 +107,7 @@ public void setId(long id) {
 }
 
 @Column (name= "groupId")
-public long getId(long id) {
+public long getId() {
 	return this.id; 
 }
 	
