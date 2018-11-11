@@ -58,7 +58,7 @@ public void setLearning(String learning) {
 }
 
 @Column(name= "learning")
-public String getLeaning() {
+public String getLearning() {
 	return this.learning; 
 }
 
