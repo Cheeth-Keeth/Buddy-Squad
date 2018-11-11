@@ -52,25 +52,17 @@ public class BuddySquadRepository {
 	}
 	
 	@Transactional
-	public int findUser(String username, String password) {
+	public User findUser(String username, String password) {
 		
 		try {
 			TypedQuery <User> query = entityManager.createQuery("SELECT c FROM User c WHERE c.username = :username", User.class);
 			User ourUser = query.setParameter("username", username).getSingleResult();
 			
-			if (ourUser.username.equals(username) && ourUser.password.equals(password)) {
-				
-				return 2;
-				
-			} else {
-				
-				return 1;
-			
-			}
+			return ourUser;
 			
 		} catch (Exception e) {
 			
-			return 0;
+			return null;
 			
 		}
 	
