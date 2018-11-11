@@ -36,33 +36,55 @@ public class BuddySquadRepository {
 	//create user
 	@Transactional
 	public User createUser(String username, String password) {
+		TypedQuery <User> query = entityManager.createQuery("SELECT c FROM User WHERE c.username = :username", User.class);
+		User ourUser = query.setParameter("username", username).getSingleResult(); 
+
+		
+		if(username == null) {
 		User user = new User();
-		user.setRating(5);
 		user.setUsername(username);
 		user.setPassword(password);
+		user.setFitness(null);
+		user.setLearning(null); 
+		user.setMiscellaneous(null); 
+		user.setLearningComplete(false); 
+		user.setMiscellaneousComplete(false); 
+		user.setFitnessComplete(false); 
 		entityManager.persist(user);
 		return user;	
+		}
+		else if (username == ourUser.username && password == ourUser.password) {
+			return ourUser; 
+		}
+		else { 
+			return null; 
+		}
+		
+		
+	
 	}
 	
 	//create route
 	@Transactional
-	public Route createRoute(int numberOfSeats, String startCity, String endCity, String aDate, String vehicle, String driver, String price) {
+	public Group joinGroup(String username, long id) {
 		
-		Route route = new Route();
-		route.setAvailableSeats(numberOfSeats);
-		route.setStartCity(startCity);
-		route.setEndCity(endCity);
-		route.setDate(aDate);
-		route.setIsAvailable(true);
-	    route.setIsComplete(false);
-	    route.setVehicle(vehicle);
-	    route.setDriver(driver);
-	    route.setPrice(price);
-	    entityManager.persist(route);
+		TypedQuery <Group> query = entityManager.createQuery("SELECT c FROM Group c WHERE c.id = :id", Group.class); 
+		Group group = query.setParameter("id", id).getSingleResult(); 
+		int space = group.getAvailableSeats(); 
+		
+		TypedQuery <User> queryTwo = entityManager.createQuery ("SELECT c FROM User c WHERE c.username = :username", User.class);
+		User user = queryTwo.setParameter("username", username).getSingleResult();
+		
+		if (space > 0) {
+			user.setId(group.getId()); 
+			group.setAvailableSpots(group.getAvailableSeats()-1);
+			entityManager.persist(user);
+			entityManager.persist(group);
+		}
+		
 	    
-	    //TypedQuery<Route> query = entityManager.createQuery("SELECT c FROM Route c WHERE c.availableSeats = :numberOfSeats AND c.date = :aDate ", Route.class);
-	    
-	    return route;
+	  
+	    return group;
 	}
 	
 	//join route

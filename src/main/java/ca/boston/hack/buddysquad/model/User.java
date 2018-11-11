@@ -6,8 +6,8 @@ import javax.persistence.*;
 @Table (name = "Veterans")
 public class User {
 		
-		private String username; 
-		private String password;  
+		public String username; 
+		public String password;  
 		private String fitness; 
 		private String learning; 
 		private String miscellaneous;

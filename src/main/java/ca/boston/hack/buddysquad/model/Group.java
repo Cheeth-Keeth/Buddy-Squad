@@ -12,6 +12,7 @@ private int availableSpots;
 private String fitness;
 private String learning;
 private String miscellaneous;
+private String name;
 
 //==================================
 
@@ -68,6 +69,17 @@ public int getAvailableSeats() {
 		@Column(name = "miscellaneous")
 		public String getMiscellaneous() {
 			return this.miscellaneous;
+		}	
+
+//==================================
+		
+		public void setName(String name) {
+			this.name = name;
+		}
+
+		@Column(name = "name")
+		public String getName() {
+			return this.name;
 		}		
 
 }
