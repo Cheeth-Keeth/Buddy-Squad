@@ -4,18 +4,27 @@
     <string name="title_activity_preference">preference</string>
     <string name="title_activity_my_group">myGroup</string>
     <string-array name="fitness_array">
+        <item>Pick an Option:</item>
         <item>Cardio</item>
         <item>Bike</item>
+        <item>Weight-Lifting</item>
+        <item>Walking</item>
     </string-array>
 
     <string-array name="learning_array">
+        <item>Pick an Option:</item>
         <item>Read</item>
+        <item>Read 30 min</item>
+        <item>Practice another language</item>
         <item>Write</item>
     </string-array>
 
     <string-array name="miscellaneous_array">
+        <item>Pick an Option:</item>
         <item>Guitar</item>
-        <item>Panting</item>
+        <item>Painting</item>
+        <item>Meditation</item>
+        <item>Journaling</item>
     </string-array>
     <string name="title_activity_groups">Groups</string>
 </resources>

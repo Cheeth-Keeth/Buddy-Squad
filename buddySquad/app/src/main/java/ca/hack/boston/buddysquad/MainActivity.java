@@ -1,15 +1,24 @@
 package ca.hack.boston.buddysquad;
 
+import android.view.View;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.MotionEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.widget.PopupWindow;
+
 
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -20,6 +29,9 @@ import org.json.JSONObject;
 import cz.msebera.android.httpclient.Header;
 
 public class MainActivity extends AppCompatActivity {
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,12 +92,16 @@ public class MainActivity extends AppCompatActivity {
         }
 
     public void signIn(View v) {
+
+
+
+
         final TextView usernameTextView = (TextView) findViewById(R.id.usernameEditText);
         final TextView passwordTextView = (TextView) findViewById(R.id.passwordEditText);
         String username = usernameTextView.getText().toString();
         String password = passwordTextView.getText().toString();
 
-        HttpUtils.get("findUser/" + username, new RequestParams(), new JsonHttpResponseHandler() {
+        HttpUtils.get("findUser/" + username + "/" + password, new RequestParams(), new JsonHttpResponseHandler() {
 
 
                 @Override
@@ -99,14 +115,14 @@ public class MainActivity extends AppCompatActivity {
         Intent startIntent = new Intent(getApplicationContext(), myGroup.class);
         startIntent.putExtra("username", username);
         startActivity(startIntent);
-    }
-
-
-
-
-
 
 
     }
+}
+
+
+
+
+
 
 

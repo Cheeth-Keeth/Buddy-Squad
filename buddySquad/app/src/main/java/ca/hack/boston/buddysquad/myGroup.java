@@ -60,6 +60,7 @@ public class myGroup extends AppCompatActivity {
             }
 
             String id = "";
+
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 super.onSuccess(statusCode, headers, response);
@@ -78,7 +79,7 @@ public class myGroup extends AppCompatActivity {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
-               System.out.print("fail");
+                System.out.print("fail");
             }
 
             @Override
@@ -488,25 +489,24 @@ public class myGroup extends AppCompatActivity {
 
     public void ComR3(View v) {
 
-            final TextView IDText = (TextView) findViewById(R.id.User3);
-            final String user3 = IDText.getText().toString();
+        final TextView IDText = (TextView) findViewById(R.id.User3);
+        final String user3 = IDText.getText().toString();
 
-            if (getName.equals(user3)) {
+        if (getName.equals(user3)) {
 
-                HttpUtils.post("completeMiscellaneous/" + getName, new RequestParams(), new JsonHttpResponseHandler() {
+            HttpUtils.post("completeMiscellaneous/" + getName, new RequestParams(), new JsonHttpResponseHandler() {
 
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-                        super.onSuccess(statusCode, headers, response);
-                    }
-                });
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+                    super.onSuccess(statusCode, headers, response);
+                }
+            });
 
-                Button btn = (Button) findViewById(R.id.R3);
-                btn.setBackgroundColor(Color.YELLOW);
-            }
-
-
+            Button btn = (Button) findViewById(R.id.R3);
+            btn.setBackgroundColor(Color.YELLOW);
         }
 
+
+    }
 
 }
