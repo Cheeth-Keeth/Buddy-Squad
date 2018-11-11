@@ -52,7 +52,7 @@ public class BuddySquadRepository {
 	}
 	
 	@Transactional
-	public User findUser(String username, String password) {
+	public User findUser(String username) {
 		
 		try {
 			TypedQuery <User> query = entityManager.createQuery("SELECT c FROM User c WHERE c.username = :username", User.class);

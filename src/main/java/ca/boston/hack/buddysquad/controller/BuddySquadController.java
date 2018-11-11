@@ -56,11 +56,11 @@ public class BuddySquadController {
 	}
 	
 	//sign in
-	@RequestMapping(value = "/findUser/{username}/{password}", method = RequestMethod.GET)
+	@RequestMapping(value = "/findUser/{username}", method = RequestMethod.GET)
 	@ResponseBody
-	public User findUser(@PathVariable String username, @PathVariable String password) {
+	public User findUser(@PathVariable String username) {
 			
-		User user = repository.findUser(username, password);
+		User user = repository.findUser(username);
 		
 		if (user != null) {
 			return user;
