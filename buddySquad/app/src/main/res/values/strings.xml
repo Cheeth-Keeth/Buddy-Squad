@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">buddySquad</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_preference">preference</string>
+    <string name="title_activity_my_group">myGroup</string>
+    <string-array name="fitness_array">
+        <item>Cardio</item>
+        <item>Bike</item>
+    </string-array>
+
+    <string-array name="learning_array">
+        <item>Read</item>
+        <item>Write</item>
+    </string-array>
+
+    <string-array name="miscellaneous_array">
+        <item>Guitar</item>
+        <item>Panting</item>
+    </string-array>
+    <string name="title_activity_groups">Groups</string>
+</resources>
