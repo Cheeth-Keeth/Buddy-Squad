@@ -36,35 +36,46 @@ public class BuddySquadRepository {
 	//create user
 	@Transactional
 	public User createUser(String username, String password) {
-		TypedQuery <User> query = entityManager.createQuery("SELECT c FROM User WHERE c.username = :username", User.class);
-		User ourUser = query.setParameter("username", username).getSingleResult(); 
-
-		
-		if(username == null) {
-		User user = new User();
-		user.setUsername(username);
-		user.setPassword(password);
-		user.setFitness(null);
-		user.setLearning(null); 
-		user.setMiscellaneous(null); 
-		user.setLearningComplete(false); 
-		user.setMiscellaneousComplete(false); 
-		user.setFitnessComplete(false); 
-		entityManager.persist(user);
-		return user;	
-		}
-		else if (username == ourUser.username && password == ourUser.password) {
-			return ourUser; 
-		}
-		else { 
-			return null; 
-		}
-		
-		
+			
+			User user = new User();
+			user.setUsername(username);
+			user.setPassword(password);
+			user.setFitness(null);
+			user.setLearning(null); 
+			user.setMiscellaneous(null); 
+			user.setLearningComplete(false); 
+			user.setMiscellaneousComplete(false); 
+			user.setFitnessComplete(false);
+			entityManager.persist(user);
+			return user;
 	
 	}
 	
-	//create route
+	@Transactional
+	public int findUser(String username, String password) {
+		
+		try {
+			TypedQuery <User> query = entityManager.createQuery("SELECT c FROM User c WHERE c.username = :username", User.class);
+			User ourUser = query.setParameter("username", username).getSingleResult();
+			
+			if (ourUser.username.equals(username) && ourUser.password.equals(password)) {
+				
+				return 2;
+				
+			} else {
+				
+				return 1;
+			
+			}
+			
+		} catch (Exception e) {
+			
+			return 0;
+			
+		}
+	
+	} 
+	
 	@Transactional
 	public Group joinGroup(String username, long id) {
 		
@@ -81,251 +92,96 @@ public class BuddySquadRepository {
 			entityManager.persist(user);
 			entityManager.persist(group);
 		}
-		
-	    
 	  
 	    return group;
 	}
 	
-	//join route
 	@Transactional
-	public Route joinRoute(long id, String user) {
+	public List<Group> findGroups(String fitness, String learning, String miscellaneous) {
 		
-		TypedQuery<Route> query = entityManager.createQuery("SELECT c FROM Route c WHERE c.id = :id", Route.class);
-		
-		Route route = query.setParameter("id", id).getSingleResult();
-		int seats = route.getAvailableSeats();
-		
-		if (seats == 6) {
-			
-			route.setPassenger1(user);
-			
-		} else if (seats == 5) {
-			
-			route.setPassenger2(user);
-			
-		} else if (seats == 4) {
-			
-			route.setPassenger3(user);
-			
-		} else if (seats == 3) {
-			
-			route.setPassenger4(user);
-			
-		} else if (seats == 2) {
-			
-			route.setPassenger5(user);
-			
-		} else  {
-			
-			route.setPassenger6(user);
-			route.setIsAvailable(false);
-			
-		}
-		
-		route.setAvailableSeats(route.getAvailableSeats() - 1);
-		entityManager.persist(route);
-		
-		return route;
-	}
-	
-	//find route
-	@Transactional
-	public List<Route> findRoutes(String aDate, String startCity, String endCity){
-	
-		TypedQuery<Route> query = entityManager.createQuery("SELECT c FROM Route c WHERE c.date = :aDate"
-				+ " AND c.startCity = :startCity AND c.endCity = :endCity AND c.isAvailable = TRUE AND c.isComplete = FALSE", Route.class);
+		TypedQuery<Group> query = entityManager.createQuery("SELECT c FROM Group c WHERE c.fitness = :fitness"
+				+ " AND c.learning = :learning AND c.miscellaneous = :miscellaneous AND c.availableSpots > 0", Group.class);
 		
 		
-		query.setParameter("startCity", startCity);
-		query.setParameter("endCity", endCity);
-		query.setParameter("aDate", aDate);
+		query.setParameter("fitness", fitness);
+		query.setParameter("learning", learning);
+		query.setParameter("miscellaneous", miscellaneous);
 		
 		return query.getResultList();
+		
+	}
+	
+	@Transactional
+	public Group createGroup(String Fitness, String Learning, String Miscellaneous, String username) {
+		
+		Group group = new Group(); 
+		group.setAvailableSpots(4); 
+		group.setLearning(Learning);
+		group.setFitness(Fitness); 
+		group.setMiscellaneous(Miscellaneous); 
+		entityManager.persist(group); 
+		
+		TypedQuery <Group> query = entityManager.createQuery("SELECT c FROM Group c WHERE c.availableSpots = 4" , Group.class);
+		group = query.getSingleResult();
+		
+		long id = group.getId(); 
+		group.setName("Squad" + id);
+		group.setAvailableSpots(2);
+		
+		entityManager.persist(group);
+		
+		TypedQuery <User> query1 = entityManager.createQuery("SELECT c FROM User c WHERE c.username = :username" , User.class);
+		User user = query1.setParameter("username", username).getSingleResult();
+		
+		user.setId(id); 
+		entityManager.persist(user); 
+		
+		return group;
 
 	}
 	
-	//end route
 	@Transactional
-	public Route endRoute(long id) {
+	public User completeFitness(String username) {
 			
-		TypedQuery<Route> query = entityManager.createQuery("SELECT c FROM Route c WHERE c.id = :id", Route.class);
+		TypedQuery <User> query = entityManager.createQuery("SELECT c FROM User c WHERE c.username = :username", User.class); 
+		User user = query.setParameter("username", username).getSingleResult(); 
 			
-		Route route = query.setParameter("id", id).getSingleResult();
-			
-		route.setIsComplete(true);
-			
-		entityManager.persist(route);
-			
-		return route;
-	}
-		
-	//show drivers routes
-	@Transactional
-	public List<Route> showDriversRoutes(String driver) {
-			
-		TypedQuery<Route> query = entityManager.createQuery("SELECT c FROM Route c WHERE c.driver = :driver AND c.isComplete = FALSE", Route.class);
-			
-		List<Route> routes = query.setParameter("driver", driver).getResultList();
-			
-		return routes;
-	}
-	
-	//show passengers routes
-	@Transactional
-	public List<Route> showPassengerRoutes(String passenger) {
-		
-		TypedQuery<Route> query = entityManager.createQuery("SELECT c FROM Route c WHERE c.passenger1 = :passenger OR c.passenger2 = :passenger OR c.passenger3 = :passenger OR c.passenger4 = :passenger OR c.passenger5 = :passenger OR c.passenger6 = :passenger", Route.class);
-		
-		query.setParameter("passenger", passenger);
-		
-		List<Route> allRoutes = query.getResultList();
-		List<Route> routes = new ArrayList<Route>();
-		
-		for (Route route : allRoutes) {
-			
-			if (!route.isIsComplete()) {
-				
-				routes.add(route);
-				
-			}
-			
-		}
-			
-		return routes;
-		
-	}
-
-	//leave route
-	@Transactional
-	public Route leaveRoute(long id, String passenger) {
-		
-		boolean found = false;
-		
-		TypedQuery<Route> query = entityManager.createQuery("SELECT c FROM Route c WHERE c.id = :id", Route.class);
-		
-		Route route = query.setParameter("id", id).getSingleResult();
-		
-		if (route.getPassenger1() != null) {
-		
-			if (route.getPassenger1().equals(passenger)) {
-			
-				route.setPassenger1(null);
-				found = true;
-			
-			}
-			
-		} else if (route.getPassenger2() != null) {
-			
-			if (route.getPassenger2().equals(passenger)) {
-				
-				route.setPassenger2(null);
-				found = true;
-			
-			}
-			
-		} else if (route.getPassenger3() != null) {
-			
-			if (route.getPassenger3().equals(passenger)) {
-				
-				route.setPassenger3(null);
-				found = true;
-			
-			}
-			
-		} else if (route.getPassenger4() != null) {
-			
-			if (route.getPassenger4().equals(passenger)) {
-				
-				route.setPassenger4(null);
-				found = true;
-			
-			}
-			
-		} else if (route.getPassenger5() != null) {
-			
-			if (route.getPassenger5().equals(passenger)) {
-				
-				route.setPassenger5(null);
-				found = true;
-			
-			}
-			
-		} else if (route.getPassenger6() != null) {
-			
-			if (route.getPassenger6().equals(passenger)) {
-				
-				route.setPassenger6(null);
-				found = true;
-			
-			}
-			
-		}
-		
-		if (found) {
-			
-			route.setAvailableSeats(route.getAvailableSeats() + 1);
-			entityManager.persist(route);
-			
-		}
-		
-		return route;
-		
-	}
-
-	//rankUser
-	@Transactional
-	public User rateUser(String username, int rating) {
-		
-		TypedQuery<User> query = entityManager.createQuery("SELECT c FROM User c WHERE c.username = :username", User.class);
-		
-		User user = query.setParameter("username", username).getSingleResult();
-			
-		user.setRating(rating);
-			
-		entityManager.persist(user);
-		
+		user.setFitnessComplete(true);
+		  
 		return user;
 	}
-	
-	//create route
-	@Transactional
-	public Route modifyRoute(Integer numberOfSeats, String startCity, String endCity, String aDate, String vehicle, String price, long id) {
-			
-		TypedQuery<Route> query = entityManager.createQuery("SELECT c FROM Route c WHERE c.id = :id", Route.class);
-		
-		Route route = query.setParameter("id", id).getSingleResult();
-		
-		route.setStartCity(startCity);
-		route.setEndCity(endCity);
-		route.setDate(aDate);
-		route.setVehicle(vehicle);
-		route.setPrice(price);
-		int people = 0;
-		
-		if (route.getPassenger1() != null) {
-			people++;
-		} if (route.getPassenger2() != null) {
-			people++;
-		} if (route.getPassenger3() != null) {
-			people++;
-		} if (route.getPassenger4() != null) {
-			people++;
-		} if (route.getPassenger5() != null) {
-			people++;
-		} if (route.getPassenger6() != null) {
-			people++;
+
+		@Transactional
+		public User completeLearning(String username) {
+				
+			TypedQuery <User> query = entityManager.createQuery("SELECT c FROM User c WHERE c.username = :username", User.class); 
+			User user = query.setParameter("username", username).getSingleResult(); 
+				
+			user.setLearningComplete(true);
+			  
+			return user;
 		}
 		
-		if (numberOfSeats > people) {
+		@Transactional
+		public User completeMiscellaneous(String username) {
+				
+			TypedQuery <User> query = entityManager.createQuery("SELECT c FROM User c WHERE c.username = :username", User.class); 
+			User user = query.setParameter("username", username).getSingleResult(); 
+				
+			user.setMiscellaneousComplete(true);
+			  
+			return user;
+		}	
+	
+		@Transactional
+		public List<User> findGroupData(long id) {
 			
-			route.setIsAvailable(true);
-			route.setAvailableSeats(numberOfSeats - people); 
+			TypedQuery <User> query = entityManager.createQuery("SELECT c FROM User c WHERE c.id = :id", User.class); 
+			List<User> users = query.setParameter("id", id).getResultList();
+			  
+			return users;
 			
-		} 
-		
-		entityManager.persist(route);
-		return route;
-	}
+			
+		}
 	
 }

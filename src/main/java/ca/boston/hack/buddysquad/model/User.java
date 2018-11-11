@@ -3,7 +3,7 @@ package ca.boston.hack.buddysquad.model;
 import javax.persistence.*;
 
 @Entity
-@Table (name = "Veterans")
+@Table (name = "Veteran")
 public class User {
 		
 		public String username; 
@@ -66,7 +66,7 @@ public String getMiscellaneous() {
 	return this.miscellaneous; 
 }
 
-public void messages(String message) {
+public void setMessages(String message) {
 	this.messages= message; 
 }
 

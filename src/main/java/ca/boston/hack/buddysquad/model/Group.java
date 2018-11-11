@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 
 @Entity
-@Table(name = "group")
+@Table(name = "groups")
 //@NamedQueries({@NamedQuery(name = "Route.findAll", query = "SELECT e FROM routes e")})
 public class Group{
 
@@ -51,7 +51,7 @@ public int getAvailableSeats() {
 		
 //==================================
 		
-	public void setLearnign(String learning) {
+	public void setLearning(String learning) {
 			this.learning = learning;
 		}
 

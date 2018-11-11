@@ -4,11 +4,13 @@ package ca.boston.hack.buddysquad.controller;
 //import java.sql.Time;
 //
 import ca.boston.hack.buddysquad.model.*;
-//import ca.mcgill.ecse321.ridesharing.repository.*;
+
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 //import org.springframework.web.bind.annotation.*;
 //
 //import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-//import ca.mcgill.ecse321.ridesharing.model.User;
 import ca.boston.hack.buddysquad.repository.BuddySquadRepository;
-
 
 @RestController
 public class BuddySquadController {
@@ -37,7 +37,7 @@ public class BuddySquadController {
 	}
 	
 	//sign in
-	@RequestMapping(value = "/signIn/{username}/{password}", method = RequestMethod.GET)
+	@RequestMapping(value = "/createUser/{username}/{password}", method = RequestMethod.POST)
 	@ResponseBody
 	public User createUser(@PathVariable String username, @PathVariable String password) {
 		
@@ -55,27 +55,60 @@ public class BuddySquadController {
 		
 	}
 	
-	//create route
-	@RequestMapping(value = "/findGroup/{fitness}/{learning}/{miscellaneous}", method = RequestMethod.GET)
+	//sign in
+	@RequestMapping(value = "/findUser/{username}/{password}", method = RequestMethod.GET)
 	@ResponseBody
-	public List<Group> createRoute(@PathVariable String fitness, @PathVariable String learning,
-			@PathVariable String miscellaneous) {
-		
-
-		List<Group> groups = repository.findGroup(fitness,learning,miscellaneous);
+	public int findUser(@PathVariable String username, @PathVariable String password) {
 			
-		if (groups != null) {
-			return groups;
+		int situation = repository.findUser(username, password);
+		
+		if (situation == 0) {
+			
+			return 0;
+			
+		} else if (situation == 1) {
+			
+			return 1;
+			
 		} else {
 			
-			Group group = repository.createGroup(fitness,learning,miscellaneous);
+			return 2;
 			
-			return group;
 		}
+			
+	}
+
+	@RequestMapping(value = "/findGroup/{fitness}/{learning}/{miscellaneous}", method = RequestMethod.GET)
+	@ResponseBody
+	public List<Group> findGroup(@PathVariable String fitness, @PathVariable String learning,
+			@PathVariable String miscellaneous) {
 		
+			List<Group> groups = repository.findGroups(fitness,learning,miscellaneous);
+			
+			if (groups.isEmpty() != true) {
+				return groups;
+			} else {
+				return null;
+			}
 	}
 	
-	//create route
+	@RequestMapping(value = "/createGroup/{fitness}/{learning}/{miscellaneous}/{username}", method = RequestMethod.GET)
+	@ResponseBody
+	public Group createGroup(@PathVariable String fitness, @PathVariable String learning,
+			@PathVariable String miscellaneous, @PathVariable String username) {
+		
+
+			Group group = repository.createGroup(fitness,learning,miscellaneous,username);
+			
+			if (group != null) {
+				return group;
+			} else {
+			
+				return null;
+			}
+		
+	}
+
 		@RequestMapping(value = "/joinGroup/{username}/{id}", method = RequestMethod.GET)
 		@ResponseBody
 		public Group joinGroup(@PathVariable String username, @PathVariable Long id) {
@@ -91,8 +124,7 @@ public class BuddySquadController {
 			}
 			
 		}
-	
-	//find route
+
 	@RequestMapping(value = "/completeFitness/{username}", method = RequestMethod.POST)
 	@ResponseBody
 	public User completeFitness(@PathVariable String username) {
@@ -109,8 +141,7 @@ public class BuddySquadController {
 		}
 		
 	}
-	
-	//find route
+
 	@RequestMapping(value = "/completeLearning/{username}", method = RequestMethod.POST)
 	@ResponseBody
 	public User completeLearning(@PathVariable String username) {
@@ -128,7 +159,6 @@ public class BuddySquadController {
 			
 	}
 	
-	//find route
 	@RequestMapping(value = "/completeMiscellaneous/{username}", method = RequestMethod.POST)
 	@ResponseBody
 	public User completeMiscellaneous(@PathVariable String username) {
@@ -144,6 +174,23 @@ public class BuddySquadController {
 			return null;
 		}
 				
+	}
+	
+	@RequestMapping(value = "/findGroupData/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public List<User> findGroupData(@PathVariable long id) {
+
+		List<User> users = repository.findGroupData(id);
+						
+		if (users.isEmpty() != true) {
+						
+			return users;
+						
+		} else {
+						
+			return null;
+		}
+					
 	}
 	
 }
